@@ -32,27 +32,28 @@ const comment = [
 ];
 
 app.get("/comments", (req, res) => {
-  res.send("comments/index", { comments });
+  res.render("/comments/index", { comments });
 });
 
 app.get("/comments/new", (req, res) => {
-  res.render("comments/new");
+  res.render("/comments/new");
 });
 
 app.post("/comments", (req, res) => {
   const { username, comment } = req.body;
   comments.push({ username, comment });
-  res.send("it works");
-});
-
-app.get("/comments/index", (req, res) => {
-  res.send("/comments");
+  res.redirect("/comments");
 });
 
 app.get("/comments/:id", (req, res) => {
   const { id } = req.params;
   const comments = comments.find((c) => c.id === id);
-  res.render("comments/show", { comment });
+  res.render("/comments/show", { comment });
+});
+
+app.get("/comments/:id/edit", (req, res) => {
+  const comment = comments.find((c) => c.id === id);
+  res.render("/comments/edit", { comment });
 });
 
 app.patch("/comments/:id", (req, res) => {
